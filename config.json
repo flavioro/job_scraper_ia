@@ -1,0 +1,26 @@
+{
+  "perfil": {
+    "nivel": ["junior", "pleno"],
+    "ingles": "B1",
+    "localidade_preferida": ["remoto", "hibrido", "presencial"]
+  },
+  "termos_busca": ["Python", "Backend", "Programador", "Desenvolvedor", "Data Engineer", "API", "SQL"],
+  "urls_vagas": [
+    "https://fcamara.gupy.io/jobs/10803174",
+    "https://lbca.gupy.io/jobs/10597382",
+    "https://vtal.gupy.io/jobs/10681166",
+    "https://unisys.wd5.myworkdayjobs.com/en-US/External/job/Rio-de-Janeiro-RJ-Brazil/Analista-Desenvolvedor-Dados-Jnior_REQ570518",
+    "https://unisys.wd5.myworkdayjobs.com/en-US/External/job/Rio-de-Janeiro-RJ-Brazi/Analista-Desenvolvedor-Dados-Jnior_REQ57051",
+    "https://unisy.wd.myworkdayjob.com/en-US/Externa/job/Rio-de-Janeiro-RJ-Brazi/Analista-Desenvolvedor-Dados-Jnior_REQ57051",
+    "https://boards.greenhouse.io/inter/jobs/4619021005?gh_jid=4619021005",
+    "https://boards.greenhouse.io/okta/jobs/7339217"
+  ],
+  "filtros": {
+    "apenas_junior_pleno": true,
+    "salario_minimo": 2500
+  },
+  "saida": {
+    "jsonl": "output/vagas_output.jsonl",
+    "csv": "output/vagas_output.csv"
+  }
+}

@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.envrc
+
+# Jupyter / Spyder
+.ipynb_checkpoints/
+.spyproject/
+.ropeproject/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Secrets
+.env
+
+# Outputs / Artifacts (não versionar)
+output/
+logs/
+cache/*.db
+cache/jobs.db
+# cache/processed_urls.json
+
+# (Opcional) se quiser manter cache json no repo, remova a linha acima.
+# Mas o padrão recomendado é não versionar cache.
+
+# SQLite WAL/SHM
+*.db-wal
+*.db-shm
+
+# Coverage / tests (etapa futura)
+.coverage
+htmlcov/
+.pytest_cache/
