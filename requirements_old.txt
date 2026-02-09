@@ -1,8 +1,0 @@
-requests
-beautifulsoup4
-lxml
-python-dotenv
-google-genai
-pydantic
-pandas
-google-api-core
