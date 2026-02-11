@@ -9,6 +9,36 @@ Pipeline local em Python para coletar vagas via URLs diretas, realizar scraping 
 
 ---
 
+## Features
+
+- Pipeline automatizado de scraping por URL
+- Fallback robusto para diferentes layouts de página
+- Extração estruturada com LLM local (Ollama)
+- Deduplicação dos dados coletados
+- Export para CSV e Excel (.xlsx)
+
+---
+
+## ✅ Recursos
+- Scraping robusto com:
+  - fallback Jina (`r.jina.ai`)
+  - fallback HTML (`requests + bs4 + lxml`)
+  - retry/backoff exponencial (`tenacity`)
+  - rate limit por domínio (jitter)
+  - rotação de User-Agent (lista local)
+- IA local com **Ollama**
+  - streaming + heartbeat
+  - retorno em JSON
+  - sem quota / sem API paga
+- Deduplicação:
+  - por `(platform, job_id)` no SQLite
+  - por `hash` do texto (mudança real do conteúdo)
+- Export:
+  - ALL (todas as vagas)
+  - filtro JR/PLENO/ATIVAS
+
+---
+
 ## 🎯 Objetivo
 
 Automatizar a coleta e organização de vagas a partir de links diretos, gerando uma base histórica consultável e arquivos finais prontos para uso (CSV/XLSX).
