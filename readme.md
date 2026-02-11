@@ -1,3 +1,6 @@
+![Python](https://img.shields.io/badge/python-3.x-blue)
+![License](https://img.shields.io/github/license/flavioro/job_scraper_ia)
+
 # Job Scraper IA (Windows + Python + Ollama)
 
 Pipeline local em Python para coletar vagas (URLs diretas), fazer scraping robusto com fallback, extrair campos estruturados com IA local (Ollama), deduplicar e persistir histórico em SQLite, gerando exports CSV/XLSX.
