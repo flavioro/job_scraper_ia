@@ -10,6 +10,16 @@ Pipeline local em Python para coletar vagas (URLs diretas), fazer scraping robus
 
 ---
 
+## Features
+
+- Pipeline automatizado de scraping por URL
+- Fallback robusto para diferentes layouts de página
+- Extração estruturada com LLM local (Ollama)
+- Deduplicação dos dados coletados
+- Export para CSV e Excel (.xlsx)
+
+---
+
 ## ✅ Recursos
 - Scraping robusto com:
   - fallback Jina (`r.jina.ai`)
