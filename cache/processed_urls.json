@@ -18,8 +18,9 @@
     "last_run": "2026-02-08T18:35:02"
   },
   "https://vtal.gupy.io/jobs/10681166": {
-    "hash": "17953f581d6275259385c9f05684238a025e454d83075a89d6cdd8961d7088b5",
-    "last_run": "2026-02-08T19:40:42"
+    "hash": "2d22cf9b0a6cf66bf243dfbd3e3bcd4d0ff4ac9b94d480383c67ff08011e92de",
+    "last_run": "2026-02-11T10:59:37",
+    "url_original": "https://vtal.gupy.io/jobs/10681166"
   },
   "https://unisys.wd5.myworkdayjobs.com/en-US/External/job/Rio-de-Janeiro-RJ-Brazil/Analista-Desenvolvedor-Dados-Jnior_REQ570518": {
     "hash": "3eb2459c5e48e982456c490dc6f435083451cbe2ac7a6555a7843765120ea15b",
@@ -39,5 +40,10 @@
     "hash": "aa9c0da191e23f5c6c7e23f3cf01033f90e45aa30d9093667016113f5fbe678e",
     "last_run": "2026-02-09T11:11:38",
     "url_original": "https://boards.greenhouse.io/okta/jobs/7339217"
+  },
+  "https://programathor.com.br/jobs/33253-desenvolvedor-a-back-end-python": {
+    "hash": "2672728ed3092ff43a5f290f93c66e9ab80f7558e75ee5b4ae6b4377d0319995",
+    "last_run": "2026-02-11T11:11:07",
+    "url_original": "https://programathor.com.br/jobs/33253-desenvolvedor-a-back-end-python"
   }
 }

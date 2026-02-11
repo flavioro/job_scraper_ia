@@ -1,227 +1,172 @@
-# Job Scraper IA (Windows + Python + Ollama)
+![Python](https://img.shields.io/badge/python-3.x-blue)
+![License](https://img.shields.io/github/license/flavioro/job_scraper_ia)
 
-Pipeline local em Python para coletar vagas (URLs diretas), fazer scraping robusto com fallback, extrair campos estruturados com IA local (Ollama), deduplicar e persistir histórico em SQLite, gerando exports CSV/XLSX.
+# Job Scraper IA (Python + Ollama + SQLite)
 
-> **Fonte de verdade:** `cache/jobs.db` (SQLite).  
-> CSV/XLSX são exports derivados.
+Pipeline local em Python para coletar vagas via URLs diretas, realizar scraping robusto com fallback, extrair campos estruturados usando LLM local (Ollama), deduplicar e persistir histórico em SQLite, com export automático para CSV e Excel (XLSX).
 
----
-
-## ✅ Recursos
-- Scraping robusto com:
-  - fallback Jina (`r.jina.ai`)
-  - fallback HTML (`requests + bs4 + lxml`)
-  - retry/backoff exponencial (`tenacity`)
-  - rate limit por domínio (jitter)
-  - rotação de User-Agent (lista local)
-- IA local com **Ollama**
-  - streaming + heartbeat
-  - retorno em JSON
-  - sem quota / sem API paga
-- Deduplicação:
-  - por `(platform, job_id)` no SQLite
-  - por `hash` do texto (mudança real do conteúdo)
-- Export:
-  - ALL (todas as vagas)
-  - filtro JR/PLENO/ATIVAS
+> Projeto focado em automação, backend e dados, com execução 100% local.
 
 ---
 
-## Stack
-- Python 3.11+ (recomendado via Conda)
-- requests
-- beautifulsoup4 + lxml
-- tenacity
-- pandas + openpyxl
-- sqlite3 (nativo)
-- python-dotenv
-- Ollama
+## 🎯 Objetivo
+
+Automatizar a coleta e organização de vagas a partir de links diretos, gerando uma base histórica consultável e arquivos finais prontos para uso (CSV/XLSX).
 
 ---
 
-## Estrutura do Projeto
+## ✅ Features
 
-```
+- Coleta de vagas por **lista de URLs**
+- Scraping robusto com **fallback**
+- Extração estruturada com **IA local (Ollama)**
+- Redução e limpeza de texto para otimizar custo/tempo de LLM
+- Deduplicação e persistência de histórico em **SQLite**
+- Export automático para:
+  - CSV
+  - Excel (.xlsx)
+- Logs detalhados para auditoria e debug
+- Arquitetura modular e pronta para expansão
+
+---
+
+## 🧠 Tecnologias e Competências
+
+**Stack:**
+- Python
+- Web Scraping
+- SQLite
+- Data Processing
+- Automação
+- ETL (conceito)
+- LLM local (Ollama)
+- APIs
+- Export CSV/XLSX
+
+---
+
+## 🖥️ Demo
+
+> As imagens abaixo mostram o pipeline em execução e o output final gerado automaticamente.
+
+### Execução (logs do pipeline)
+![Execução do pipeline](img/spyder_console_flow.png)
+
+### Output gerado (Excel)
+![Planilha gerada](img/excel_output.png)
+
+---
+
+## 🏗️ Arquitetura (Visão Geral)
+
+O pipeline é organizado em etapas independentes, com foco em confiabilidade e reaproveitamento:
+
+1. Entrada: lista de URLs de vagas  
+2. Scraping + fallback (caso layout falhe)  
+3. Redução de texto (limpeza e otimização)  
+4. Extração estruturada com IA local (Ollama)  
+5. Validação de chaves mínimas  
+6. Deduplicação (hash) e persistência em SQLite  
+7. Export automático para CSV e Excel  
+
+---
+
+## 📦 Estrutura do Projeto
+
+```txt
 job_scraper_ia/
-  main.py
-  scraper.py
-  processor.py
-  utils.py
-  text_cleaner.py
-  db.py
-  export_db.py
-  logger.py
-  prompts/
-    prompt_extracao.txt
-  cache/
-    jobs.db              # gerado
-    processed_urls.json  # gerado (se não ignorar)
-  output/
-    vagas_output_all.csv
-    vagas_output_all.xlsx
-    vagas_output_jr_pleno_ativas.csv
-    vagas_output_jr_pleno_ativas.xlsx
-  logs/
-    app.log              # gerado
-  .env
-  config.json
-  requirements.txt
-  .gitignore
-  README.md
+├── main.py
+├── config.json
+├── db.py
+├── export_db.py
+├── output/
+├── README.md
+└── ...
 ```
 
 ---
 
-## Setup (Windows)
+## ▶️ Como executar (Windows)
 
-### 1) Criar ambiente Conda
+### 1) Clonar o projeto
 ```bash
-conda create -n vagas_ia python=3.11 -y
-conda activate vagas_ia
+git clone https://github.com/flavioro/job_scraper_ia.git
+cd job_scraper_ia
 ```
 
-### 2) Instalar dependências
+### 2) Criar ambiente virtual
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3) Instalar dependências
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Ollama (IA local)
-
-### 1) Verificar se está rodando
-Abra no navegador:
-- http://localhost:11434
-
-### 2) Baixar modelo (escolha 1)
-
-Modelo padrão (mais preciso, pode ser mais lento):
+### 4) Rodar o Ollama localmente
+- Instale o Ollama: https://ollama.com/
+- Baixe um modelo (exemplo):
 ```bash
 ollama pull qwen2.5:7b
 ```
 
-Modelo mais rápido para MVP:
-```bash
-ollama pull qwen2.5:3b
-```
-
-### 3) Teste rápido
-```bash
-ollama run qwen2.5:7b "Responda apenas: ok"
-```
-
----
-
-## Configuração
-
-### `.env` (crie na raiz do projeto)
-```env
-LLM_PROVIDER=ollama
-OLLAMA_BASE_URL=http://localhost:11434
-OLLAMA_MODEL=qwen2.5:7b
-
-OLLAMA_TIMEOUT=900
-OLLAMA_NUM_PREDICT=250
-OLLAMA_TEMPERATURE=0.2
-```
-
-### `config.json` (exemplo)
-```json
-{
-  "urls_vagas": [
-    "https://fcamara.gupy.io/jobs/10803174",
-    "https://boards.greenhouse.io/inter/jobs/4619021005?gh_jid=4619021005"
-  ]
-}
-```
-
----
-
-## Prompt do LLM
-
-Arquivo: `prompts/prompt_extracao.txt`
-
-**Importante:** usar placeholders do `string.Template`:
-- `${url}`
-- `${texto}`
-
----
-
-## Como Rodar
-
+### 5) Executar o pipeline
 ```bash
 python main.py
 ```
 
-Ao final, o script:
-- persiste/upserta no SQLite (`cache/jobs.db`)
-- exporta:
-  - `output/vagas_output_all.csv` e `.xlsx`
-  - `output/vagas_output_jr_pleno_ativas.csv` e `.xlsx`
-- grava logs em:
-  - `logs/app.log`
-
 ---
 
-## Arquitetura (alto nível)
+## 📤 Saídas geradas
 
-1) Lê URLs do `config.json`
-2) Normaliza URL (`normalize_url`)
-3) Detecta plataforma (`detect_platform`)
-4) Extrai `job_id` (`extract_job_id`)
-5) Scrape robusto (`scraper.get_page_text`)
-   - tenta Jina
-   - fallback requests+bs4
-   - retry/backoff
-   - rate limit por domínio
-   - UA rotation
-6) Hash do conteúdo (`sha256_text`)
-7) Dedupe/skip por `(platform, job_id)` + `hash` no SQLite
-8) Detecta status heurístico (ativa/duvidosa/removida)
-9) Reduz texto para IA (performance)
-10) Chama Ollama com streaming e retorno JSON
-11) Normaliza chaves (`normalize_llm_result`)
-12) Upsert no SQLite
-13) Export CSV/XLSX do SQLite
+O projeto gera automaticamente arquivos no diretório `output/`, por exemplo:
 
----
-
-## Outputs
-
-### ALL (todas as vagas)
 - `output/vagas_output_all.csv`
 - `output/vagas_output_all.xlsx`
-
-### Filtro JR/PLENO/ATIVAS
 - `output/vagas_output_jr_pleno_ativas.csv`
 - `output/vagas_output_jr_pleno_ativas.xlsx`
 
 ---
 
-## Logs
+## 🔍 Campos extraídos (exemplo)
 
-Arquivo:
-- `logs/app.log`
+O pipeline tenta estruturar campos como:
 
-O log registra:
-- tempos de scrape e IA
-- skips por cache/db
-- erros com stack trace
-
----
-
-## Checklist de Saúde (debug rápido)
-
-- Ollama responde: `http://localhost:11434`
-- Modelo instalado: `ollama list`
-- `.env` presente e correto
-- Prompt usa `${texto}` e `${url}`
-- Rodar 2x deve pular IA para URLs sem mudança (hash igual)
-- Ver logs em `logs/app.log`
+- Empresa
+- Cargo
+- Localidade / Remoto
+- Tipo de trabalho (remoto / híbrido / presencial)
+- Senioridade
+- Salário (quando disponível)
+- Link de candidatura
+- Data da publicação
+- Score (0 a 100)
+- Motivo curto (feedback do match)
 
 ---
 
-## Roadmap
+## 📌 Observações
 
-- Etapa 15: Testes automatizados (pytest) + fixtures
-- Melhorias: extração por plataforma (Gupy/Workday/Greenhouse), parsing sem IA quando possível, reprocessamento seletivo por data.
+- O projeto roda **100% local**, sem depender de API paga.
+- A qualidade da extração pode variar conforme o layout e o texto da vaga.
+- A arquitetura é preparada para adicionar novos sites/fontes facilmente.
+
+---
+
+## 🧩 Próximas melhorias (ideias)
+
+- [ ] Dashboard (Streamlit) para visualizar e filtrar vagas
+- [ ] Integração com mais fontes (Gupy, Workday, Lever, Greenhouse etc)
+- [ ] Cache inteligente por domínio
+- [ ] Scheduler (execução automática diária)
+- [ ] Export com filtros personalizados
+
+---
+
+## 👤 Autor
+
+**Flavio Rodrigues**  
+LinkedIn: https://www.linkedin.com/in/flaviorobertorodrigues/  
+GitHub: https://github.com/flavioro
