@@ -26,6 +26,7 @@ Thumbs.db
 # Outputs / Artifacts (não versionar)
 output/
 logs/
+auxiliar/
 cache/*.db
 cache/jobs.db
 # cache/processed_urls.json
